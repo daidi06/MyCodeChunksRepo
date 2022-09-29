@@ -23,3 +23,12 @@ df1 = df1[~df1.index.isin(df2.index)]
 
 #### 3rd method would be to do left join with the argument indicator=True
 df1.merge(df2, on = ['c', 'l'], how = 'left', indicator = True)
+## We could then filter all the rows which are left_only with query
+d = (
+    df1.merge(df2, 
+              on=['c', 'l'],
+              how='left', 
+              indicator=True)
+    .query('_merge == "left_only"')
+    .drop(columns='_merge')
+)
